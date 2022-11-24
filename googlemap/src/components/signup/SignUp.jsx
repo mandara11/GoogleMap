@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import { register } from '../../services/userService';
 
 
 
@@ -240,6 +241,11 @@ function SignUp(props) {
     }
     console.log(signupObj)
     if (firstnameTest === true && lastnameTest === true && usernameTest === true && passwordTest === true) {
+      register(signupObj).then((response) => {
+        console.log(response)
+    }).catch((error) => {   
+        console.log(error)
+    })
       console.log("created success")
 
     }

@@ -6,6 +6,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
 import { pink } from '@mui/material/colors';
+import { login } from '../../services/userService';
 
 const emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/;
 const passwordRegex = /^[a-z]{3,}$/;
@@ -236,10 +237,18 @@ function SignIn(props) {
         }
         console.log(loginObj)
         if (emailTest === true && passwordTest === true) {
+            login(loginObj).then((response) => {
+                console.log(response)
+                localStorage.setItem("token", response.data.access_token)
+            }).catch((error) => {
+                console.log(error)
+            })
           console.log("login Success")
         }
       }
     
+
+
     return (
         <div>
             <Paper elevation={3} className={classes.container1}>
