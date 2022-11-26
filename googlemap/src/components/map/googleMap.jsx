@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Map, GoogleApiWrapper,Marker } from 'google-maps-react'
 import { markerData } from '../redux/action'
 import { connect, useDispatch, useSelector } from 'react-redux';
+import { addData } from '../../services/dataService';
 
 const MapContainer=(props) => {
   const dispatch = useDispatch()
@@ -24,12 +25,23 @@ const MapContainer=(props) => {
           }}
             onClick={() => {
               dispatch(markerData(store))
+              createData()
               console.log("You clicked me!", store)
             }
     
             } />
         })
       }
+
+      const createData = () => {
+        addData(result[0]).then((response) => {
+          console.log(response)
+        }).catch((error) => {
+          console.log(error)
+        })
+    
+      }
+
   return (
     
       <Map
