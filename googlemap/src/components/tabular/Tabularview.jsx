@@ -1,7 +1,7 @@
 import { makeStyles } from '@mui/styles'
 import Box from '@mui/material/Box';
 import React, { useEffect, useState } from 'react'
-import {getMarkerData } from '../../services/dataService';
+import { deleteData, getMarkerData, updateMarkerData } from '../../services/dataService';
 import Paper from '@mui/material/Paper';
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
@@ -153,6 +153,30 @@ function Tabularview() {
         }))
     }
 
+    const saveData = () => {
+        updateMarkerData(inputValue)
+            .then((response) => {
+                console.log(response)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+        setOpen(false);
+    }
+
+    const removeData=(data)=> {
+        // let removeObj = {data:data}
+        console.log(data)
+        deleteData(data)
+        .then((response)=>{
+            console.log(response)
+        })
+        .catch((error)=> {
+            console.log(error)
+        })
+    //     console.log(removeObj, "deleted successfully")
+     }
+
 
     return (
         <div>
@@ -165,21 +189,21 @@ function Tabularview() {
                         <span className={classes.row1d}>Edit</span>
                     </Paper>
                     <Box>
-                            {
-                                view.map((data) => (
-                                    <Box>
-                                    <Box elevation={1} className={classes.row2} >
-                                        <span className={classes.row1a}>{data.id}</span>
-                                        <span className={classes.row1b}>{data.latitude}</span>
-                                        <span className={classes.row1c}>{data.longitude}</span>
-                                        <span className={classes.row1dd}>
-                                            <span className={classes.row1e}><EditOutlinedIcon onClick={() => handleOpen(data)} /></span>
-                                            <span className={classes.row1e}><DeleteOutlineOutlinedIcon /></span>
-                                        </span>
-                                    </Box>
-                                    </Box>
-                                ))
-                            }
+                        {
+                            view.map((data) => (
+                                <Box>
+                                <Box elevation={1} className={classes.row2} >
+                                    <span className={classes.row1a}>{data.id}</span>
+                                    <span className={classes.row1b}>{data.latitude}</span>
+                                    <span className={classes.row1c}>{data.longitude}</span>
+                                    <span className={classes.row1dd}>
+                                        <span className={classes.row1e}><EditOutlinedIcon onClick={() => handleOpen(data)} /></span>
+                                        <span className={classes.row1e}><DeleteOutlineOutlinedIcon onClick={() => removeData(data)} /></span>
+                                    </span>
+                                </Box>
+                                </Box>
+                            ))
+                        }
                     </Box>
                 </Paper>
                 <Modal
@@ -194,6 +218,9 @@ function Tabularview() {
                             <InputBase type='textbox' name='' onChange={updateLatitude} placeholder='latitude' defaultValue={inputValue.title} />
                             <InputBase type='textbox' name='' onChange={updateLongitude} placeholder='longitude' defaultValue={inputValue.description} />
                         </div>
+                    </div>
+                    <div className={classes.icons4}>
+                        <div><Button className={classes.btn2} style={{ textTransform: 'capitalize' }} onClick={saveData}>Save</Button></div>
                     </div>
                 </Box>
             </Modal>
